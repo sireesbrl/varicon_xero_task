@@ -56,6 +56,62 @@ class XeroCallbackAPIViewTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data["error"], "Authorization code missing")
 
+class RefreshAccessTokenAPIViewTests(APITestCase):
+    def setUp(self):
+        """
+        Set up the test by creating a valid Xero token in the database, and
+        defining the URL of the RefreshAccessTokenAPIView.
+        """
+        self.token = XeroToken.objects.create(
+            access_token="valid_access_token",
+            refresh_token="valid_refresh_token",
+            expires_in=3600,
+        )
+        self.url = "/api/v1/xero/token/refresh/"
+
+    @patch("requests.post")
+    def test_get(self, mock_post):
+        """
+        Test that the API returns a 200 status code when accessing the endpoint.
+        """
+        mock_response = {
+            "access_token": "new_access_token",
+            "refresh_token": "new_refresh_token",
+            "expires_in": 3600
+        }
+        mock_post.return_value.status_code = 200
+        mock_post.return_value.json.return_value = mock_response
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+    
+    def test_token_refresh_failed(self):
+        """
+        Test that the API returns a 400 status code and an appropriate error message
+        when the token is expired and needs to be refreshed.
+        """
+
+        self.token.expires_in = 0
+        self.token.save()
+
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data["error"], "Token refresh failed")
+
+    def test_no_token_found(self):
+        """
+        Test that the API returns a 400 status code and an appropriate error message
+        when there is no Xero token present in the database.
+        """
+        XeroToken.objects.all().delete()
+
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data["error"], "No token found")
+
+
 class UpdateChartOfAccountsAPIViewTests(APITestCase):
     def setUp(self):
         """
