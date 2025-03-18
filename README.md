@@ -29,7 +29,7 @@ This project demonstrates how to implement Xero OAuth 2.0 authentication flow in
    ```
    XERO_CLIENT_ID=your_client_id
    XERO_CLIENT_SECRET=your_client_secret
-   XERO_REDIRECT_URI=http://127.0.0.1:8000/xero/callback/
+   XERO_REDIRECT_URI=http://127.0.0.1:8000/api/v1/xero/callback/
    ```
 
 4. **Run Migrations:**
