@@ -67,7 +67,7 @@ class XeroCallbackAPIView(APIView):
             defaults={
                 "access_token": response["access_token"],
                 "refresh_token": response["refresh_token"],
-                "expires_at": response["expires_in"],
+                "expires_in": response["expires_in"],
             },
         )
         return Response({"message": "Xero authentication successful"}, status=status.HTTP_200_OK)
