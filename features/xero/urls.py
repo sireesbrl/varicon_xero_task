@@ -10,7 +10,7 @@ from .views import (
 urlpatterns = [
     path("login/", XeroLoginAPIView.as_view(), name="xero-login"),
     path("callback/", XeroCallbackAPIView.as_view(), name="xero-callback"),
-    path("refresh/", RefreshTokenAPIView.as_view(), name="xero-refresh-token"),
+    path("token/refresh/", RefreshTokenAPIView.as_view(), name="xero-refresh-token"),
     path(
         "accounts/update/",
         UpdateChartOfAccountsAPIView.as_view(),
