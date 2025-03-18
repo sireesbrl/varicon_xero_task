@@ -9,6 +9,9 @@ This project demonstrates how to implement Xero OAuth 2.0 authentication flow in
 - Refresh access tokens
 - Fetch Chart of Accounts from Xero
 
+## Flowchart
+![Flowchart](code-flow.svg)
+
 ## Setup
 
 1. **Clone the repository:**
