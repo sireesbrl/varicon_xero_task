@@ -14,7 +14,7 @@ This project demonstrates how to implement Xero OAuth 2.0 authentication flow in
 1. **Clone the repository:**
    ```bash
    git clone https://github.com/sireesbrl/varicon_xero_task.git
-   cd xero-oauth-django
+   cd varicon_xero_task
    ```
 
 2. **Install dependencies:**
