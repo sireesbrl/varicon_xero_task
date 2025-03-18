@@ -57,7 +57,7 @@ This project demonstrates how to implement Xero OAuth 2.0 authentication flow in
 
 - `/xero/login/`: Initiates the Xero OAuth login flow.
 - `/xero/callback/`: Handles the OAuth callback from Xero.
-- `/xero/refresh/`: Refreshes the Xero access token.
+- `/xero/token/refresh/`: Refreshes the Xero access token.
 - `/xero/accounts/update/`: Updates the Chart of Accounts from Xero.
 - `/xero/accounts/all/`: Displays the Chart of Accounts from Xero.
 
