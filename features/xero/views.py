@@ -116,7 +116,7 @@ class RefreshTokenAPIView(APIView):
             token.save()
 
             return Response(
-                {"message": "Token refreshed successfully", "access_token": token.access_token},
+                {"message": "Token refreshed successfully"},
                 status=status.HTTP_200_OK
             )
 
