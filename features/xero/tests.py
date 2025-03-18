@@ -5,6 +5,57 @@ from features.xero.serializers import ChartOfAccountSerializer
 from unittest.mock import patch
 import uuid
 
+class XeroLoginAPIViewTests(APITestCase):
+    def setUp(self):
+        """
+        Set up the test by defining the URL of the XeroLoginAPIView.
+        """
+        self.url = "/api/v1/xero/login/"
+
+    def test_get_redirect_url(self):
+        """
+        Test that the API returns a redirect URL for Xero OAuth authorization.
+        """
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIn("https://login.xero.com/identity/connect/authorize", response.data["redirect_url"])
+
+class XeroCallbackAPIViewTests(APITestCase):
+    def setUp(self):
+        """
+        Set up the test by defining the URL of the XeroCallbackAPIView.
+        """
+        self.url = "/api/v1/xero/callback/"
+
+    @patch("features.xero.views.requests.post")
+    def test_get_tokens(self, mock_get):
+        """
+        Test that the API returns the Xero access token and refresh token.
+        """
+        mock_response = {
+            "access_token": "mock_access_token",
+            "refresh_token": "mock_refresh_token",
+            "expires_in": 3600
+        }
+        mock_get.return_value.status_code = 200
+        mock_get.return_value.json.return_value = mock_response
+
+        response = self.client.get(self.url, {"code": "mock_authorization_code"})
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["message"], "Xero authentication successful")
+
+    @patch("features.xero.views.requests.post")
+    def test_missing_authorization_code(self, mock_post):
+        """
+        Test that the API returns an error response when the authorization code is missing.
+        """
+        mock_post.return_value.status_code = 400
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data["error"], "Authorization code missing")
+
 class UpdateChartOfAccountsAPIViewTests(APITestCase):
     def setUp(self):
         """
