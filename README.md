@@ -37,16 +37,21 @@ This project demonstrates how to implement Xero OAuth 2.0 authentication flow in
 
 4. **Run Migrations:**
    ```bash
-   python manage.py migrate
+   python3 manage.py migrate
    ```
 
 5. **Start the server:**
    ```bash
-   python manage.py runserver
+   python3 manage.py runserver
    ```
 
 6. **Access the application:**
    Open your browser and go to `http://127.0.0.1:8000/api/v1/xero/login/` to start the Xero OAuth flow.
+
+7. **Run Tests:**
+   ```bash
+   python3 manage.py test features.xero.tests
+   ```
 
 ## Endpoints
 
